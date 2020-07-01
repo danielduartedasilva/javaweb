@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+	  xmlns:o="http://omnifaces.org/ui"
+	  xmlns:of="http://omnifaces.org/functions">
+
+	<ui:composition template="/template/xhtml/template.xhtml">
+	<ui:define name="tituloPagina">Cadastro de Cartao</ui:define>
+	<ui:define name="tituloPrincipal">Cadastro de Cartao</ui:define>
+	<ui:define name="tituloSecundario">Cadastre os cartões para transação</ui:define>
+
+	<ui:define name="botoesAcao">	
+	<p:commandButton value="Cadastrar" action="#{cartaoBean.cadastrar()}" update="@form"/>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<p:panelGrid columns="3" >
+
+				<p:outputLabel for="n0" value="Cliente" />
+				<p:selectOneMenu id="n0" value="#{cartaoBean.cartao.cliente}" 
+								 converter="omnifaces.SelectItemsIndexConverter">
+					<f:selectItem noSelectionOption="true" itemLabel="--Selecione--"/>
+					<f:selectItems value="#{clienteBean.clientes}" var="cliente" itemLabel="#{cliente.nome}" itemValue="#{cliente}"/>
+				</p:selectOneMenu>
+				<p:message for="n0" />
+				
+				<p:outputLabel for="n1" value="Saldo (R$):" />
+				<p:inputNumber id="n1" value="#{cartaoBean.cartao.saldo}" decimalPlaces="2" thousandSeparator="." decimalSeparator=","/>
+				<p:message for="n1" />
+				
+				
+				
+				
+		</p:panelGrid>
+	</ui:define>
+	
+	</ui:composition>
+</html>

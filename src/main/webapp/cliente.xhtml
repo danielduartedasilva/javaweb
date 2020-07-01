@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+	  xmlns:o="http://omnifaces.org/ui"
+	  xmlns:of="http://omnifaces.org/functions">
+
+	<ui:composition template="/template/xhtml/template.xhtml">
+	<ui:define name="tituloPagina">Cadastro de Cliente</ui:define>
+	<ui:define name="tituloPrincipal">Cadastro de Cliente</ui:define>
+	<ui:define name="tituloSecundario">cadastre os clientes para transação</ui:define>
+	
+	<ui:define name="botoesAcao">
+		<p:commandButton value="Cadastrar" action="#{clienteBean.cadastrar()}" update="@form"/>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+	
+		<p:panelGrid columns="3" style="padding-bottom: 15px;">
+		
+		<p:outputLabel for="n0" value="Nome:" />
+		<p:inputText id="n0" value="#{clienteBean.cliente.nome}" />                   <!-- clienteBean deu 2 saltos para buscar o atributo nome, processo conhecido como Pojo, o jsf cria o objeto ClinteBean rodando no construtor ClieinteBean, após ele vai fazer um getCliente para recuperar o objeto cliente, daí faz o setNome no objeto Cliente, por isso é necessário dar um new no objeto Cliente -->
+		<p:message for="n0" />
+		
+		<p:outputLabel for="n1" value="Email:" />
+		<p:inputText id="n1"	value="#{clienteBean.cliente.email}" />
+		<p:message for="n1" />
+		
+		<p:outputLabel for="n2" value="Data de nascimento:" />
+		<p:calendar id="n2" value="#{clienteBean.cliente.dataNascimento}" mask="99/99/9999" pattern="dd/MM/yyyy" locale="pt" showOn="button" />
+		<p:message for="n2" />
+		
+		<p:outputLabel for="n3" value="CPF:" />
+		<p:inputMask id="n3" value="#{clienteBean.cliente.cpf}" mask="999.999.999-99" />
+		<p:message for="n3" />
+		
+		<p:outputLabel for="n4" value="Telefone:" />
+        <p:inputMask id="n4" value="#{clienteBean.cliente.telefone}" mask="(99) 99999-9999" />
+        <p:message for="n4" />
+		
+		<p:outputLabel for="n5" value="Renda Média:" />
+		<p:inputNumber id="n5" value="#{clienteBean.cliente.rendaMedia}" decimalPlaces="2" thousandSeparator="." decimalSeparator="," />
+		<p:message for="n5" />
+		
+		
+		</p:panelGrid>
+		
+		
+	<p:dataTable id="tbClientes" var="cliente" value="#{clienteBean.clientes}"
+			emptyMessage="Nada cadastrado">
+			<p:column headerText="Identificação">
+				<h:outputText value="#{cliente.id}" />
+			</p:column>
+			<p:column headerText="Nome">
+				<h:outputText value="#{cliente.nome}" />
+			</p:column>
+			<p:column headerText="Email">
+				<h:outputText value="#{cliente.email}" />
+			</p:column>
+			<p:column headerText="Data de nascimento">
+				<h:outputText value="#{cliente.dataNascimento}" />
+			</p:column>
+			<p:column headerText="CPF">
+				<h:outputText value="#{cliente.cpf}" />
+			</p:column>
+			<p:column headerText="Telefone">
+				<h:outputText value="#{cliente.telefone}" />
+			</p:column>
+			<p:column headerText="Renda Média">
+				<h:outputText value="#{cliente.rendaMedia}" />
+			</p:column>
+			
+			<p:column headerText="Ações">
+				<p:commandButton value="Excluir" action="#{clienteBean.excluir(cliente)}" update="@form" immediate="true">
+					<p:confirm header="Confirmação" message="Você tem certeza que deseja excluir o cliente #{cliente.nome}?" icon="pi pi-exclamation-triangle" />
+				</p:commandButton>
+
+			</p:column>
+		</p:dataTable>
+
+
+	</ui:define>
+	
+	</ui:composition>
+</html>
+
+<!-- PROCESS VALIDATION - o que faz o fomulário ficar todo vermelho, se eu não quiser usar uso o imediate="true" -->
+<!-- resetvalue - para limpar campos de input quanto retornar a tela -->
+<!-- rendered - para habilitar ou desabilitar um botão na tela -->
+<!-- update="@form" ele atualiza o formulário -->
